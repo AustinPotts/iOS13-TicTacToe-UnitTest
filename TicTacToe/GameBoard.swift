@@ -14,6 +14,8 @@ enum GameBoardError: Error, Equatable {
 
 typealias Coordinate = (x: Int, y: Int)
 
+
+// All the game rules
 struct GameBoard {
     
     enum Mark: Equatable {
@@ -33,6 +35,9 @@ struct GameBoard {
         case empty
     }
     
+    // to check what is at current coordinate
+    // let gameBoard = GameBoard()
+    // let mark = gameBoard[(x: 1, y:2)]
     subscript(coordinate: Coordinate) -> Mark? {
         let square = squares[arrayIndex(for: coordinate)]
         if case let Square.filled(mark) = square {
@@ -42,6 +47,7 @@ struct GameBoard {
         }
     }
     
+    // place mark in given coordinate
     mutating func place(mark: Mark, on square: Coordinate) throws {
         if self[square] != nil {
             throw GameBoardError.invalidSquare
@@ -49,6 +55,7 @@ struct GameBoard {
         squares[arrayIndex(for: square)] = .filled(mark)
     }
     
+    // Check is the board is full
     var isFull: Bool {
         for square in squares {
             if square == .empty {
@@ -58,6 +65,9 @@ struct GameBoard {
         return true
     }
     
+    
+    // simplyfing coordinates
+    // 0 + 2 = 2
     private func arrayIndex(for square: Coordinate) -> Int {
         return square.y * 3 + square.x
     }
